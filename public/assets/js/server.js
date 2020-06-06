@@ -29,12 +29,12 @@ app.use(express.json());
    //Post APIs
    app.post("/api/notes", function(req, res) {
     let newNote = req.body;
-    let rawdata = fs.readFileSync('./db/db.json');
+    let rawData = fs.readFileSync('./db/db.json');
     // let student = JSON.parse(rawdata);
     // [{"title":"Test Title","text":"Test text"}]
     let notesArray;
 
-    notesArray = JSON.parse(rawdata);
+    notesArray = JSON.parse(rawData);
     // console.log(newNote);
     // console.log(notesArray);
     // console.log(notesArray.constructor);  
