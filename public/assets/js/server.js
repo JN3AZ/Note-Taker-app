@@ -1,13 +1,17 @@
+// Here our the dependencies that are needed
 const express = require("express");
 const path = require("path");
 const fs = require("fs");
 
+//setting up newly learned express dependency 
 const app = express();
 // const PORT = 8080;
 
-var PORT = process.env.PORT || 3000;
+// setting up what PORT server to use
+const PORT = process.env.PORT || 3000;
 
-app.use(express.urlencoded({extend: true}));
+//these two lines are needed to properly parse data
+app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
   //Get APIs 
@@ -22,6 +26,7 @@ app.use(express.json());
         res.send(data);
       });
   });
+  //this sends any wildcard requests to the index.html page
   app.get("*", function(req, res) {
     res.sendFile(path.join(__dirname, "index.html"));
   });
@@ -47,11 +52,12 @@ app.use(express.json());
 });
 
    //delete APIs
-app.delete("/api/notes/:id", function(req, res) {
+    app.delete("/api/notes/:id", function(req, res) {
     res.sendFile(path.join(__dirname, "./db/db.json"));
+
   });
 
-
+//this listen method allows computer to hear and execute user requests 
   app.listen(PORT, function() {
     console.log("App listening on PORT " + PORT);
   });
