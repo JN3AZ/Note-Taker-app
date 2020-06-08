@@ -2,7 +2,7 @@
 const express = require("express");
 const path = require("path");
 const fs = require("fs");
-const uuidv4  = require("uuidv4");
+const { uuid } = require("uuidv4");
 
 //setting up newly learned express dependency
 const app = express();
@@ -17,11 +17,12 @@ app.use(express.json());
 
 //Get APIs
 app.get("/notes", function (req, res) {
-  res.sendFile(path.join(__dirname, "notes.html"));
+  res.sendFile(path.join(__dirname, "../../notes.html"));
+  // res.sendFile("../notes.html");
 });
 
 app.get("/api/notes", function (req, res) {
-  fs.readFile("db.json", (err, data) => {
+  fs.readFile("./db/db.json", (err, data) => {
     if (err) throw err;
     res.type("json");
     res.send(data);
@@ -35,18 +36,11 @@ app.get("*", function (req, res) {
 
 //Post APIs
 app.post("/api/notes", function (req, res) {
-  let newNote = {
-    title: req.body.title,
-    body: req.body.body,
-  }
-
-  newNote.id = uuidv4("");
-
+  let newNote = req.body;
   let rawData = fs.readFileSync("./db/db.json");
-  // let student = JSON.parse(rawdata);
-  // [{"title":"Test Title","text":"Test text"}]
   let notesArray;
 
+  newNote.id = uuid();
   notesArray = JSON.parse(rawData);
   // console.log(newNote);
   // console.log(notesArray);
@@ -63,17 +57,22 @@ app.post("/api/notes", function (req, res) {
 app.delete("/api/notes/:id", function (req, res) {
   // res.sendFile(path.join(__dirname, "./db/db.json"));
   let notesArray = JSON.parse(fs.readFileSync("./db/db.json"));
-  let removeId = req.params.id;
+  let noteId = req.params.id;
+  let deletedNote;
   // console.log(notesArray.length);
   //established a For loop in order to pass over each json in db array to find index of req id to be deleted
   for (let i = 0; i < notesArray.length; i++) {
-    if (notesArray[i].id === removeId) {
+    if (notesArray[i].id === noteId) {
+      //setting desired object to deletedNote variable
+      deletedNote = notesArray[i];
       //using splice method to remove specific note from db array
       notesArray.splice(i, 1);
       //write updated notesArray to db json array
       fs.writeFileSync("./db/db.json", JSON.stringify(notesArray));
+      break;
     }
   }
+  res.json(deletedNote);
 });
 
 //this listen method allows computer to hear and execute user requests
