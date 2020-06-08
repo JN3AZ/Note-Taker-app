@@ -29,10 +29,8 @@ app.get("/api/notes", function (req, res) {
   });
 });
 
-//this sends any wildcard requests to the index.html page
-app.get("*", function (req, res) {
-  res.sendFile(path.join(__dirname, "index.html"));
-});
+
+
 
 //Post APIs
 app.post("/api/notes", function (req, res) {
@@ -95,6 +93,11 @@ app.delete("/api/notes/:id", function (req, res) {
   // fs.writeFileSync('./db/db.json', notesArray);
   // // Send deleted note back to client
   // res.json(noteToDelete);
+
+//this sends any wildcard requests to the index.html page
+  app.get("*", function (req, res) {
+    res.sendFile(path.join(__dirname, "index.html"));
+  });
 
 //this listen method allows computer to hear and execute user requests
 app.listen(PORT, function () {
