@@ -14,10 +14,11 @@ const PORT = process.env.PORT || 3000;
 //these two lines are needed to properly parse data
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(express.static("public"));
 
 //Get APIs
 app.get("/notes", function (req, res) {
-  res.sendFile(path.join(__dirname, "../../notes.html"));
+  res.sendFile(path.join(__dirname, "public/notes.html"));
   // res.sendFile("../notes.html");
 });
 
@@ -96,7 +97,7 @@ app.delete("/api/notes/:id", function (req, res) {
 
 //this sends any wildcard requests to the index.html page
   app.get("*", function (req, res) {
-    res.sendFile(path.join(__dirname, "index.html"));
+    res.sendFile(path.join(__dirname, "/public/index.html"));
   });
 
 //this listen method allows computer to hear and execute user requests
