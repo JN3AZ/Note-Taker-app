@@ -74,6 +74,27 @@ app.delete("/api/notes/:id", function (req, res) {
   }
   res.json(deletedNote);
 });
+    // NOTE: this is the cleaner, more advanced way to do the delete
+
+  //   VERSION 1
+  // let noteId = req.param.id,
+  //     noteToDelete = notesArray.find(note => note.id === noteId),
+  //     deletedNoteIndex = notesArray.indexOf(noteToDelete);
+  // // Save updated notes array to db.json
+  // fs.writeFileSync('./db/db.json', notesArray);
+  // // Send deleted note back to client
+  // res.json(notesArray.slice(deletedNoteIndex)[0]);
+
+  // VERSION 2
+  // let noteId = '1432f982-dbd7-4924-834e-be379e1c153d',
+  //     noteToDelete = notesArray.find(note => note.id === noteId),
+  //     deletedNoteIndex = notesArray.indexOf(noteToDelete);
+  // // Let's delete that note
+  // notesArray.slice(deletedNoteIndex);
+  // // Save the updated array to db.json
+  // fs.writeFileSync('./db/db.json', notesArray);
+  // // Send deleted note back to client
+  // res.json(noteToDelete);
 
 //this listen method allows computer to hear and execute user requests
 app.listen(PORT, function () {
