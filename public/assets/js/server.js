@@ -2,6 +2,7 @@
 const express = require("express");
 const path = require("path");
 const fs = require("fs");
+const uuidv4  = require("uuidv4");
 
 //setting up newly learned express dependency
 const app = express();
@@ -34,7 +35,13 @@ app.get("*", function (req, res) {
 
 //Post APIs
 app.post("/api/notes", function (req, res) {
-  let newNote = req.body;
+  let newNote = {
+    title: req.body.title,
+    body: req.body.body,
+  }
+
+  newNote.id = uuidv4("");
+
   let rawData = fs.readFileSync("./db/db.json");
   // let student = JSON.parse(rawdata);
   // [{"title":"Test Title","text":"Test text"}]
